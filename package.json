@@ -1,0 +1,26 @@
+{
+  "name": "discord-music-bot",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc && node dist/index.js",
+    "start:dev": "nodemon"
+  },
+  "dependencies": {
+    "@discordjs/voice": "^0.16.0",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@types/fluent-ffmpeg": "^2.1.23",
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "libsodium-wrappers": "^0.7.13",
+    "nodemon": "^3.0.1",
+    "youtube-sr": "^4.3.9",
+    "ytdl-core": "^4.11.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
