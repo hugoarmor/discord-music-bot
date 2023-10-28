@@ -1,0 +1,1 @@
+type SearchQuery = string
