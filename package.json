@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc && node dist/index.js",
-    "start:dev": "nodemon"
+    "start:dev": "nodemon",
+    "start:prod": "node dist/index.js"
   },
   "dependencies": {
     "@discordjs/voice": "^0.16.0",
