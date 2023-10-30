@@ -9,7 +9,7 @@ env:
   ECS_CLUSTER: discord-bot-cluster
   ECS_TASK_DEFINITION: ./aws/task-definition.json
 
-  CONTAINER_NAME: discord-bot-container
+  CONTAINER_NAME: ${{ secrets.TASK_DEFINITION_JSON }}
 
 permissions:
   contents: read
