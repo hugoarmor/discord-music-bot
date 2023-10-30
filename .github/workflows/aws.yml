@@ -7,6 +7,7 @@ env:
   AWS_REGION: sa-east-1
   ECR_REPOSITORY: discord-bot
   ECS_CLUSTER: discord-bot-cluster
+  ECS_SERVICE: my-discord-music-bot
   ECS_TASK_DEFINITION: ./task-definition.json
 
   CONTAINER_NAME: discord-bot-container
