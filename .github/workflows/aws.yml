@@ -7,9 +7,9 @@ env:
   AWS_REGION: sa-east-1
   ECR_REPOSITORY: discord-bot
   ECS_CLUSTER: discord-bot-cluster
-  ECS_TASK_DEFINITION: ./aws/task-definition.json
+  ECS_TASK_DEFINITION: task-definition.json
 
-  CONTAINER_NAME: ${{ secrets.TASK_DEFINITION_JSON }}
+  CONTAINER_NAME: discord-bot-container
 
 permissions:
   contents: read
@@ -21,6 +21,9 @@ jobs:
     environment: production
 
     steps:
+    - name: Write task definition
+      run: echo "${{ secrets.TASK_DEFINITION_JSON }}" > task-definition.json
+
     - name: Checkout
       uses: actions/checkout@v3
 
