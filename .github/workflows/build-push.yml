@@ -6,12 +6,12 @@ on:
     branches:
       - main 
 
+env:
+  IMAGE_TAG: ${{ github.sha }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    outputs:
-      sha_short: ${{ steps.vars.outputs.sha_short }}  # Expose the short SHA as an output
 
     steps:
       - name: Checkout code
@@ -26,20 +26,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Extract short SHA
-        id: vars
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-
-      - name: Set output sha_short
-        id: sha_output
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: hugoarmoreira/discord-music-bot:${{ steps.sha_output.outputs.sha_short }}
+          tags: hugoarmoreira/discord-music-bot:${{ env.IMAGE_TAG }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -61,4 +53,4 @@ jobs:
 
       - name: Set Docker tag
         run: |
-          kubectl set image deployment/discord-bot-deployment discord-bot=hugoarmoreira/discord-music-bot:${{ needs.build.outputs.sha_short }}
+          kubectl set image deployment/discord-bot-deployment discord-bot=hugoarmoreira/discord-music-bot:${{ env.IMAGE_TAG }}
