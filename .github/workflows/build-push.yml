@@ -53,4 +53,4 @@ jobs:
 
       - name: Set Docker tag
         run: |
-          kubectl set image deployment/discord-music-bot discord-music-bot=hugoarmoreira/discord-music-bot:${{ env.sha_short }}
+          kubectl set image deployment/discord-bot-deployment discord-bot=hugoarmoreira/discord-music-bot:${{ env.sha_short }}
