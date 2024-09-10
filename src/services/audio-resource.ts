@@ -1,11 +1,10 @@
 import {
   createAudioResource,
 } from "@discordjs/voice";
-import ytdl from "ytdl-core";
+import ytdl from "@distube/ytdl-core";
 import ffmpeg from "fluent-ffmpeg";
 import ffmpegInstaller from "@ffmpeg-installer/ffmpeg";
 import { PassThrough, Readable } from "stream";
-import YouTubeSR from 'youtube-sr';
 import { YoutubeQuery } from "./youtube-query";
 
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
