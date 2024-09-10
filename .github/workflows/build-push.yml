@@ -48,7 +48,8 @@ jobs:
 
       - name: Set KUBECONFIG
         run: |
-          echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
+          mkdir -p $HOME/.kube  # Create .kube directory
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
 
       - name: Set Docker tag
         run: |
