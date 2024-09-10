@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    outputs:
+      sha_short: ${{ steps.vars.outputs.sha_short }}  # Expose the short SHA as an output
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -27,12 +30,17 @@ jobs:
         id: vars
         run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
+      - name: Set output sha_short
+        id: sha_output
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: hugoarmoreira/discord-music-bot:${{ env.sha_short }}
+          tags: hugoarmoreira/discord-music-bot:${{ steps.sha_output.outputs.sha_short }}
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -44,13 +52,13 @@ jobs:
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
         with:
-          version: 'v1.27.1'  # Specify the kubectl version you need
+          version: 'v1.27.1'
 
       - name: Set KUBECONFIG
         run: |
-          mkdir -p $HOME/.kube  # Create .kube directory
+          mkdir -p $HOME/.kube
           echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
 
       - name: Set Docker tag
         run: |
-          kubectl set image deployment/discord-bot-deployment discord-bot=hugoarmoreira/discord-music-bot:${{ env.sha_short }}
+          kubectl set image deployment/discord-bot-deployment discord-bot=hugoarmoreira/discord-music-bot:${{ needs.build.outputs.sha_short }}
