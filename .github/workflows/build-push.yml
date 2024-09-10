@@ -41,6 +41,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.27.1'  # Specify the kubectl version you need
+
       - name: Set KUBECONFIG
         run: |
           echo "${{ secrets.KUBE_CONFIG }}" > $HOME/.kube/config
@@ -48,4 +53,3 @@ jobs:
       - name: Set Docker tag
         run: |
           kubectl set image deployment/discord-music-bot discord-music-bot=hugoarmoreira/discord-music-bot:${{ env.sha_short }}
-
